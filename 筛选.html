@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		nav>ul>li{
+			float: left;
+			width: 33.333%;
+			text-align: center;
+		}
+		nav>ul>li h2{
+			height: 40px;
+			line-height: 40px;
+		}
+		nav>ul>li>ul{
+			display: none;
+		}
+		.on{
+			color:#f40;
+		}
+	</style>
+</head>
+<body>
+	<nav>
+		<ul>
+			<li>
+				<h2 value='two' class="on">近三月</h2>
+				<ul>
+					<li>所有时间</li>
+					<li value="one">近一年</li>
+					<li value="two" class="on">近三月</li>
+					<li value="three">近两月</li>
+				</ul>
+			</li>
+			<li>
+				<h2>市场类型</h2>
+				<ul>
+					<li class="on">全部</li>
+					<li value="2">新三板</li>
+					<li value="3">股东大会</li>
+				</ul>
+			</li>
+			<li>
+				<h2>公告类型</h2>
+				<ul>
+					<li class="on">全部</li>
+					<li value="5">发票大厅</li>
+					<li value="6">股东大会</li>
+				</ul>
+			</li>
+		</ul>
+
+	</nav>
+
+	<script src="jquery.js"></script>
+	<script>
+		$(function(){
+			var params = {
+				timer:'',
+				typeq:'',
+				city:''
+			}
+			$('h2').on('click',function(){
+				$(this).siblings('ul').show().parents('li').siblings().children('ul').hide()
+			})
+			$('nav>ul>li>ul li').on('click',function(){
+				var value = $(this).attr('value')
+				// console.log(value)
+				if(value==undefined){
+					$(this).parents('ul').siblings('h2').attr('value','')
+					$(this).parents('ul').siblings('h2').removeClass('on')
+					var index = $(this).parents('li').index();
+					console.log(typeof index)
+					if(index==1){
+						$(this).parents('ul').siblings('h2').html('市场类型')
+					}else if(index==2){
+						$(this).parents('ul').siblings('h2').html('公告类型')
+					}else if(index==0){
+						$(this).addClass('on').siblings().removeClass('on').parents('ul').siblings('h2').html($(this).html())
+					}
+						// $(this).addClass('on').siblings().removeClass('on').parents('ul').siblings('h2').html($(this).html())
+
+				}else{
+					$(this).parents('ul').siblings('h2').attr('value',value)
+					$(this).parents('ul').siblings('h2').addClass('on')
+					$(this).parents('ul').siblings('h2').html($(this).html())
+				}
+				$(this).addClass('on').siblings().removeClass('on')
+				$(this).parent('ul').hide()
+				params.timer = $('nav>ul>li:first-child h2').attr('value');
+				params.typeq = $('nav>ul>li:nth-child(2) h2').attr('value')==undefined?'':$('nav>ul>li:nth-child(2) h2').attr('value');
+				params.city = $('nav>ul>li:nth-child(3) h2').attr('value')==undefined?'':$('nav>ul>li:nth-child(3) h2').attr('value');
+			 	console.log(params)
+			})
+
+		})
+	</script>
+</body>
+</html>
